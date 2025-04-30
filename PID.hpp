@@ -58,7 +58,7 @@ inline PID::PID(float p,float i,float d,float dt,float i_lim,float mv_lim):
 		p(p),
 		i(i),
 		d(d),
-		c(1/i),
+		c(i = 0 : c = 0 ? c = 1/i),
 		dt(dt),
 		error(0),
 		i_sum(0),
@@ -108,26 +108,18 @@ inline void PID::PID_set_mv_lim(float lim){
 
 //PIDゲインのゲット関数
 inline float PID::PID_get_p(){
-	float p;
-	p = this->p;
 	return p;
 }
 
 inline float PID::PID_get_i(){
-	float i;
-	i = this->i;
 	return i;
 }
 
 inline float PID::PID_get_d(){
-	float d;
-	d = this->d;
 	return d;
 }
 
-inline float PID::PID_get_c() {
-	float c;
-	c = this->c;
+inline float PID::PID_get_c() {f
 	return c;
 }
 
