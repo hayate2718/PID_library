@@ -18,9 +18,9 @@ private:
 	float d; //微分ゲイン
 
 	float c; //アンチワインドアップゲイン
-	
+
 	float dt; //微小時間（制御周期）
-	
+
 	float error; //偏差
 	float i_sum; //積分制御用偏差バッファ
 	float error_before; //前回偏差
@@ -58,7 +58,7 @@ inline PID::PID(float p,float i,float d,float dt,float i_lim,float mv_lim):
 		p(p),
 		i(i),
 		d(d),
-		c(i = 0 : c = 0 ? c = 1/i),
+		c(i == 0 ? 0 : 1/i),
 		dt(dt),
 		error(0),
 		i_sum(0),
@@ -119,7 +119,7 @@ inline float PID::PID_get_d(){
 	return d;
 }
 
-inline float PID::PID_get_c() {f
+inline float PID::PID_get_c() {
 	return c;
 }
 
@@ -146,10 +146,10 @@ inline float PID::PID_controller(float error){
 
 	if(fabsf(MV) > this->mv_lim){ //制御量のリミッタを適用
 		if(MV > 0){
-			i_sum += (MV - mv_lim) * (this->c);
+			i_sum -= (MV - mv_lim) * (this->c);
 			MV = mv_lim;
 		}else{
-			i_sum -= (MV + mv_lim) * (this->c);
+			i_sum += (MV + mv_lim) * (this->c);
 			MV = -1*mv_lim;
 		}
 	}
